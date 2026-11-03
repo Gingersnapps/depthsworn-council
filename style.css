@@ -102,3 +102,11 @@ a { color: var(--accent) }
 .modal .bar2 b { font-family: var(--display); font-size: 1.1rem }
 .modal iframe { width: 100%; height: 100%; border: 0; background: var(--bg) }
 body.locked { overflow: hidden }
+
+.trow { display: flex; justify-content: space-between; align-items: center; gap: 8px }
+.like { border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 1px 10px; font-size: .85rem; color: var(--muted); cursor: pointer }
+.like:hover:not(:disabled) { border-color: var(--muted) }
+.like.on { color: var(--accent); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent) }
+.deadline { font-size: .85rem; font-weight: 700; color: var(--accent) }
+.deadline.soon { color: var(--d-combat) }
+.q.built > img { max-height: 420px }

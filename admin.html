@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Council Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px) }
+body { margin: 0 }
+.wrap { max-width: 980px }
+.adm-q { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--dc); border-radius: 8px; padding: 14px 16px; display: grid; gap: 10px }
+.res { display: grid; gap: 6px }
+.res .r { display: grid; grid-template-columns: minmax(0, 1fr) 4.5em; gap: 4px 10px; align-items: center; font-size: .92rem }
+.res .r .bar { grid-column: 1 / -1 }
+.res .r.win span:first-child { font-weight: 700 }
+.acts { display: flex; flex-wrap: wrap; gap: 6px }
+.sub { display: grid; gap: 8px; padding: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px }
+.sub textarea, .sub input[type=text], .sub input[type=date], .sub select { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; width: 100%; min-width: 0 }
+.sub textarea { min-height: 70px; resize: vertical }
+.optedit { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center }
+.optedit img { width: 56px; height: 42px; object-fit: cover; border-radius: 4px }
+@media (max-width: 560px) { .optedit { grid-template-columns: 1fr } }
+.cm { display: grid; gap: 4px; padding: 10px 0; border-top: 1px solid var(--line) }
+.cm.hid p { opacity: .55; text-decoration: line-through }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px }
+.filters button { --dc: var(--muted); border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 4px 11px; font-weight: 700; font-size: .9rem; color: var(--muted) }
+.filters button[aria-pressed="true"] { color: var(--dc); border-color: var(--dc); background: color-mix(in srgb, var(--dc) 10%, transparent) }
+.signin { max-width: 460px }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 700; padding: 2px 9px 2px 7px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--dc) 45%, transparent); color: var(--dc); background: color-mix(in srgb, var(--dc) 10%, transparent) }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--dc) }
+.acts .btn { text-decoration: none; color: inherit }
+.who { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="who"><a href="./">← The council</a><span class="spacer" style="flex:1"></span><span id="whoami" class="small muted"></span></div>
+    <h1>Council Admin</h1>
+    <p>Post and edit questions, set deadlines, read results, hide bad comments, and show what each vote became.</p>
+  </header>
+  <nav class="tabs" aria-label="Admin" id="atabs" hidden>
+    <a href="#questions" data-tab="questions">Questions</a>
+    <a href="#new" data-tab="new">New question</a>
+    <a href="#comments" data-tab="comments">Comments <span class="count" id="c-com"></span></a>
+  </nav>
+  <main id="view"><p class="status-line">Loading…</p></main>
+</div>
+<div class="toast" id="toast" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
