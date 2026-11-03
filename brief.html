@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="style.css">
+<script>if (/[?&]embed=1/.test(location.search)) document.documentElement.classList.add("embed");</script>
 <style>
 :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px) }
 body { margin: 0 }
@@ -41,6 +42,14 @@ figcaption { font-size: .85rem; color: var(--muted) }
 .askbox { background: color-mix(in srgb, var(--dc) 8%, var(--panel)); border: 1px solid color-mix(in srgb, var(--dc) 35%, var(--line)); border-radius: 8px; padding: 12px 14px; display: flex; gap: 10px 16px; flex-wrap: wrap; align-items: center; justify-content: space-between }
 .askbox a { font-weight: 700 }
 .back { text-decoration: none; font-weight: 500 }
+html.embed .back, html.embed .askbox a, html.embed .gocouncil { display: none }
+.ack { margin-top: 28px; background: var(--panel); border: 2px solid var(--accent); border-radius: 10px; padding: 18px; display: grid; gap: 12px; scroll-margin-bottom: 20px }
+.ack h2 { font-size: 1.4rem }
+.ack label { display: flex; gap: 10px; align-items: flex-start; font-weight: 500; cursor: pointer }
+.ack input[type=checkbox] { width: 22px; height: 22px; margin-top: 1px; accent-color: var(--accent); flex: none }
+.ack .btn { justify-self: start; font-size: 1.05rem; padding: 10px 18px }
+.ack .hint { font-size: .9rem; color: var(--muted) }
+.ack.done { border-color: var(--ok) }
 </style>
 </head>
 <body>
@@ -273,8 +282,30 @@ figcaption { font-size: .85rem; color: var(--muted) }
       <div class="pillar"><h3>3. It closes</h3><p class="muted">When a question closes, the answers and the best comments become a short plan, shown on the question.</p></div>
       <div class="pillar"><h3>4. It gets built</h3><p class="muted">The plan becomes work on the game, and it shows up in the next playtest build.</p></div>
     </div>
-    <p><a class="brieflink" href="./">Go to the council and answer →</a></p>
+  </section>
+
+  <section class="ack" id="ack" aria-labelledby="ackTitle">
+    <h2 id="ackTitle">Before you vote</h2>
+    <p>The council only works if everyone answers with the same picture of the game in mind. Please confirm you've read this brief.</p>
+    <label for="ackBox"><input type="checkbox" id="ackBox"> <span>I've read the Depthsworn design brief and understand where the game is now and where it's going.</span></label>
+    <button class="btn primary" id="ackBtn" type="button" disabled>Enter the council</button>
+    <p class="hint" id="ackHint">Tick the box to continue.</p>
   </section>
 </div>
+<script>
+(function () {
+  const KEY = "council-brief-v1";
+  const box = document.getElementById("ackBox"), btn = document.getElementById("ackBtn"), hint = document.getElementById("ackHint");
+  let seen = false;
+  try { if (localStorage.getItem(KEY) === "1") { box.checked = true; document.getElementById("ack").classList.add("done"); } } catch (e) {}
+  const update = () => { btn.disabled = !box.checked; hint.textContent = box.checked ? "Thanks. You're ready to vote." : "Tick the box to continue."; };
+  box.addEventListener("change", update); update();
+  btn.addEventListener("click", () => {
+    try { localStorage.setItem(KEY, "1"); } catch (e) {}
+    if (window.parent !== window) window.parent.postMessage({ type: "brief-ack" }, location.origin);
+    else location.href = "./";
+  });
+})();
+</script>
 </body>
 </html>

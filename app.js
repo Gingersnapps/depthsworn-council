@@ -15,6 +15,24 @@ const S = { votes: [], thoughts: [], loaded: false, offline: false };
 const cfg = window.COUNCIL_DB || {};
 const db = cfg.url && cfg.key && window.supabase ? window.supabase.createClient(cfg.url, cfg.key, { auth: { persistSession: false } }) : null;
 
+// --- the design brief: everyone reads and acknowledges it before answering
+const ACK = "council-brief-v1";
+let ackMem = false;
+function acked() { try { return localStorage.getItem(ACK) === "1" || ackMem; } catch (e) { return ackMem; } }
+function showBrief() {
+  if (document.getElementById("briefModal")) return;
+  const m = document.createElement("div");
+  m.className = "modal"; m.id = "briefModal"; m.setAttribute("role", "dialog"); m.setAttribute("aria-modal", "true"); m.setAttribute("aria-label", "Design brief");
+  m.innerHTML = `<div class="sheet"><div class="bar2"><b>Read this first</b><span class="small muted">Scroll to the bottom to continue</span></div><iframe src="brief.html?embed=1" title="Depthsworn design brief"></iframe></div>`;
+  document.body.appendChild(m); document.body.classList.add("locked");
+}
+function hideBrief() { const m = document.getElementById("briefModal"); if (m) m.remove(); document.body.classList.remove("locked"); }
+window.addEventListener("message", ev => {
+  if (ev.origin !== location.origin || !ev.data || ev.data.type !== "brief-ack") return;
+  ackMem = true; try { localStorage.setItem(ACK, "1"); } catch (e) {}
+  hideBrief(); toast("Welcome to the council.");
+});
+
 function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2600); }
 function tab() { const h = (location.hash || "#art").slice(1); return DEPTS[h] ? h : "art"; }
 function counts(q) {
@@ -70,6 +88,7 @@ async function load() {
 
 document.addEventListener("click", async ev => {
   const b = ev.target.closest(".choice"); if (!b || !db) return;
+  if (!acked()) return showBrief();
   const q = b.dataset.q, o = b.dataset.o;
   const prev = S.votes.find(v => v.question === q && v.device === ME);
   if (prev) prev.option = o; else S.votes.push({ question: q, device: ME, option: o });
@@ -79,6 +98,7 @@ document.addEventListener("click", async ev => {
 });
 document.addEventListener("submit", async ev => {
   ev.preventDefault(); const f = ev.target; if (!f.classList.contains("answer") || !db) return;
+  if (!acked()) return showBrief();
   const ta = f.querySelector("textarea"); const body = ta.value.trim().slice(0, 1000); if (!body) return;
   const btn = f.querySelector("button"); btn.disabled = true;
   const r = await db.from("thoughts").insert({ question: f.dataset.q, device: ME, body });
@@ -88,4 +108,5 @@ document.addEventListener("submit", async ev => {
 });
 window.addEventListener("hashchange", () => { render(); window.scrollTo(0, 0); });
 render(); load();
+if (!acked()) showBrief();
 setInterval(() => { if (!document.hidden) load(); }, 20000);
