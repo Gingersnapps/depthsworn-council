@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Depthsworn Design Brief</title>
+<meta name="description" content="What Depthsworn is today, where it's going, and how each part of the game should look and play.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px) }
+body { margin: 0 }
+img { max-width: 100% }
+.lede { font-size: 1.15rem; max-width: 60ch }
+.toc { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 6px }
+.toc a { --dc: var(--muted); text-decoration: none; color: var(--dc); border: 1px solid color-mix(in srgb, var(--dc) 45%, transparent); background: color-mix(in srgb, var(--dc) 9%, transparent); padding: 4px 11px; border-radius: 999px; font-weight: 700; font-size: .9rem }
+section.part { padding: 26px 0 8px; border-top: 1px solid var(--line); display: grid; gap: 14px; scroll-margin-top: 12px }
+section.part > h2 { font-size: 1.6rem }
+.pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px }
+.pillar { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px; display: grid; gap: 6px; align-content: start }
+.pillar h3 { font-size: 1.1rem }
+.ws { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px }
+@media (max-width: 760px) { .ws { grid-template-columns: 1fr } }
+.col { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--cc); border-radius: 8px; padding: 12px 14px; display: grid; gap: 8px; align-content: start; min-width: 0 }
+.col.now { --cc: var(--muted) } .col.go { --cc: var(--dc) } .col.op { --cc: var(--accent) }
+.col ul { margin: 0; padding-left: 1.1em; display: grid; gap: 5px }
+.col li { overflow-wrap: anywhere }
+figure { margin: 0; display: grid; gap: 6px }
+figure img { border-radius: 8px; border: 1px solid var(--line); width: 100%; background: var(--sunk) }
+figcaption { font-size: .85rem; color: var(--muted) }
+.figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px }
+.status { display: grid; gap: 8px }
+.srow { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 10px; align-items: baseline }
+.tag { font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; text-align: center }
+.t-built { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok) }
+.t-next { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent) }
+.t-vote { background: var(--sunk); color: var(--ink) }
+.askbox { background: color-mix(in srgb, var(--dc) 8%, var(--panel)); border: 1px solid color-mix(in srgb, var(--dc) 35%, var(--line)); border-radius: 8px; padding: 12px 14px; display: flex; gap: 10px 16px; flex-wrap: wrap; align-items: center; justify-content: space-between }
+.askbox a { font-weight: 700 }
+.back { text-decoration: none; font-weight: 500 }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="back" href="./">← Back to the council</a>
+    <h1>Depthsworn Design Brief</h1>
+    <p class="lede">A dark-woods action RPG. You go deeper into a cursed forest, one depth at a time, fighting what lives there and taking what it guards. This page is the worksheet behind the council: what the game is right now, where we want it to go, and how each part should look and play.</p>
+    <nav class="toc" aria-label="Sections">
+      <a href="#pillars">The pillars</a>
+      <a href="#art" style="--dc:var(--d-art)">Art</a>
+      <a href="#world" style="--dc:var(--d-world)">World</a>
+      <a href="#animation" style="--dc:var(--d-animation)">Animation</a>
+      <a href="#audio" style="--dc:var(--d-audio)">Audio</a>
+      <a href="#monsters" style="--dc:var(--d-monsters)">Monsters</a>
+      <a href="#combat" style="--dc:var(--d-combat)">Combat</a>
+      <a href="#loot" style="--dc:var(--d-loot)">Loot</a>
+      <a href="#story" style="--dc:var(--d-story)">Story</a>
+      <a href="#ui" style="--dc:var(--d-ui)">Menus &amp; UI</a>
+      <a href="#how">How the council works</a>
+    </nav>
+  </header>
+
+  <section class="part" id="pillars">
+    <h2>The game in brief</h2>
+    <p>Depthsworn is built in the Godot engine by a very small team using AI-assisted tools for 3D models, code and sound, with every piece checked, fitted and adjusted by hand. It runs on Windows and is in early playtesting. Everything below is work in progress; the pictures are test renders, not marketing shots.</p>
+    <div class="pillars">
+      <div class="pillar"><h3>Dark woods, not dark fantasy</h3><p class="muted">Grim, gothic, moonlit forest. Dead trees, stone crosses, graveyards, fog and rain. Folk horror more than dragons. Nothing bright or cartoonish.</p></div>
+      <div class="pillar"><h3>Every hit has weight</h3><p class="muted">You see attacks coming and feel them land: wind-ups, steps, follow-throughs, a short freeze on impact. Enemies should be readable too.</p></div>
+      <div class="pillar"><h3>Go deeper</h3><p class="muted">Each run is a descent: clear the clearings, search the buildings, beat the boss, go down. Every depth is darker and stranger than the last.</p></div>
+      <div class="pillar"><h3>Loot worth the risk</h3><p class="muted">Gear from Common to Legendary, with sets and elements. The best things are behind locked doors and named monsters.</p></div>
+    </div>
+    <div class="status">
+      <p class="label">Where things stand</p>
+      <div class="srow"><span class="tag t-built">Built</span><span>4 classes with talent trees, 4 races, 10 weapon types, 13 armor looks, 8 monster types plus bosses, 5 depths, 6 kinds of enterable building, weather, ambience, saving, first and third person, a Windows playtest build.</span></div>
+      <div class="srow"><span class="tag t-next">Next</span><span>Making each depth feel different, readable enemy attacks, better spells and bow, menus that fit the world, and the direction the council picks.</span></div>
+      <div class="srow"><span class="tag t-vote">Your call</span><span>Who you are, how hard it is, whether you can dodge, what the next depth and monster are. Every open council question is one of these.</span></div>
+    </div>
+  </section>
+
+  <section class="part" id="art" style="--dc:var(--d-art)">
+    <h2>Art</h2>
+    <div class="ws">
+      <div class="col now"><span class="label">How it is now</span><ul>
+        <li>Realistic, painterly 3D models made with an AI 3D tool, then cleaned up and fitted to the game by hand.</li>
+        <li>The hero has 13 armor looks: light, medium and heavy armor in three quality levels, plus four sets (Ashen Requiem, Grimfang, Storm, Raven).</li>
+        <li>Four races (Human, Elf, Dwarf, Orc), male only so far. Every armor look is fitted to every race.</li>
+        <li>Rare and Legendary weapons have detailed models; Legendary ones have runes that glow in their element colour. Common weapons are still simple shapes.</li></ul></div>
+      <div class="col go"><span class="label">Where we're going</span><ul>
+        <li>One consistent look: worn, grim, handmade. If a piece looks shiny or out of place in a moonlit forest, it goes.</li>
+        <li>Female versions of every race.</li>
+        <li>Real models for Common and Uncommon weapons.</li>
+        <li>More armor sets, each tied to a place or faction in the woods.</li></ul></div>
+      <div class="col op"><span class="label">How it should work</span><ul>
+        <li>Rarity should be readable from the third-person camera: plain at Common, distinct at Rare, unmistakable at Legendary.</li>
+        <li>A full set should look like a set; mixed pieces should still look like one person.</li>
+        <li>Light, medium and heavy should read at a glance (leather, mail, plate).</li></ul></div>
+    </div>
+    <figure><img src="img/armor.jpg" alt="Three armored heroes wearing the Grimfang, Storm and Raven sets" loading="lazy"><figcaption>Three of the four armor sets (Grimfang, Storm, Raven) on the Elf.</figcaption></figure>
+    <div class="askbox"><span>Open questions: the next armor set, and how Legendary weapons should stand out.</span><a href="./#art">Answer in the council →</a></div>
+  </section>
+
+  <section class="part" id="world" style="--dc:var(--d-world)">
+    <h2>World</h2>
+    <div class="ws">
+      <div class="col now"><span class="label">How it is now</span><ul>
+        <li>Five depths: The Hollow Wood, The Sunken Pines, The Ashen Thicket, The Grave Groves, The Black Heart.</li>
+        <li>Each depth is built new every run: clearings in the woods joined by paths, dead trees, gothic stone crosses as checkpoints.</li>
+        <li>Graveyards that whisper at night, standing stones, broken walls.</li>
+        <li>3–4 buildings per depth you can walk into: timber house, chapel, inn, tower, hut, crypt. Each is furnished, has a chest and things to search, and some hide an ambush or a mini-boss.</li>
+        <li>Fireflies, low fog banks, and rain on some nights.</li></ul></div>
+      <div class="col go"><span class="label">Where we're going</span><ul>
+        <li>Each depth with its own identity: its own colour, landmarks, weather and monsters, not just a new name.</li>
+        <li>More depths below The Black Heart.</li>
+        <li>More building types, secrets and side paths worth leaving the trail for.</li></ul></div>
+      <div class="col op"><span class="label">How it should work</span><ul>
+        <li>A run is a descent: explore, clear, search the buildings, find the way down, beat the boss at the bottom.</li>
+        <li>Buildings are small dungeons: risk going in, reward coming out.</li>
+        <li>The woods should feel watched. Sound and light hint at danger before you see it.</li></ul></div>
+    </div>
+    <div class="figs">
+      <figure><img src="img/world.jpg" alt="Dead trees under moonlight in the first depth" loading="lazy"><figcaption>The Hollow Wood, in-game.</figcaption></figure>
+      <figure><img src="img/chapel.jpg" alt="Inside a chapel with pews, an altar and moonlight" loading="lazy"><figcaption>Inside a chapel.</figcaption></figure>
+      <figure><img src="img/crypt.jpg" alt="Inside a crypt with coffins and bone niches" loading="lazy"><figcaption>Inside a crypt: coffins to search, a tomb at the end.</figcaption></figure>
+    </div>
+    <div class="askbox"><span>Open questions: the next depth, and the next building you can walk into.</span><a href="./#world">Answer in the council →</a></div>
+  </section>
+
+  <section class="part" id="animation" style="--dc:var(--d-animation)">
+    <h2>Animation</h2>
+    <div class="ws">
+      <div class="col now"><span class="label">How it is now</span><ul>
+        <li>Hand-made swings for each weapon family: swords cut, axes and maces chop, daggers stab, two-handers sweep and slam.</li>
+        <li>Each swing has a wind-up, a step forward, a fast strike and a follow-through. Two-handed weapons are held in both hands.</li>
+        <li>A short freeze when a hit connects, and a faint trail behind the blade.</li>
+        <li>Werewolves have a loping run, alternating claw swipes, a howl when they spot you and a flinch when hit.</li>
+        <li>Walk, run, idle, hit and death animations for the hero.</li></ul></div>
+      <div class="col go"><span class="label">Where we're going</span><ul>
+        <li>Better spell casting and a real bow draw.</li>
+        <li>Each monster moving with its own personality.</li>
+        <li>Heavier stagger and death reactions.</li>
+        <li>A way to evade, if the council wants one.</li></ul></div>
+      <div class="col op"><span class="label">How it should work</span><ul>
+        <li>Every attack, yours or theirs, is readable: you can see it coming and react.</li>
+        <li>Heavy weapons are slower and hit harder; daggers are quick.</li>
+        <li>Animation never fights the controls: when you press attack, something happens right away.</li></ul></div>
+    </div>
+    <div class="figs">
+      <figure><img src="img/swing.jpg" alt="Six frames of a great axe overhead slam" loading="lazy"><figcaption>A great axe slam: wind-up, step, slam and follow-through.</figcaption></figure>
+      <figure><img src="img/werewolf.jpg" alt="Werewolves idle, walking, howling, winding up and striking" loading="lazy"><figcaption>Werewolf poses: idle, run, howl, wind-up, strike.</figcaption></figure>
+    </div>
+    <div class="askbox"><span>Open questions: how werewolves should hunt you, and the hero's next move.</span><a href="./#animation">Answer in the council →</a></div>
+  </section>
+
+  <section class="part" id="audio" style="--dc:var(--d-audio)">
+    <h2>Audio</h2>
+    <div class="ws">
+      <div class="col now"><span class="label">How it is now</span><ul>
+        <li>Night ambience around you outdoors: crows, a distant cracked bell, far-off howls, snapping branches, cold gusts.</li>
+        <li>Drips inside crypts, whispers in chapels and near graves.</li>
+        <li>Battle music, swing and hit sounds.</li></ul></div>
+      <div class="col go"><span class="label">Where we're going</span><ul>
+        <li>Battle music that belongs in these woods.</li>
+        <li>Monster voices you learn to recognise.</li>
+        <li>Hits that crunch, footsteps that change with the ground, spells that sound like magic.</li></ul></div>
+      <div class="col op"><span class="label">How it should work</span><ul>
+        <li>Sound warns you: you hear a werewolf before you see it.</li>
+        <li>Quiet most of the time, so the fights and the scares land.</li>
+        <li>Every monster and every weapon type sounds different.</li></ul></div>
+    </div>
+    <div class="askbox"><span>Open questions: what the battle music sounds like, and which sounds to fix first.</span><a href="./#audio">Answer in the council →</a></div>
+  </section>
+
+  <section class="part" id="monsters" style="--dc:var(--d-monsters)">
+    <h2>Monsters</h2>
+    <div class="ws">
+      <div class="col now"><span class="label">How it is now</span><ul>
+        <li>Wolf, goblin, spider, skeleton, cultist, wraith, ogre and the werewolf, all with detailed models.</li>
+        <li>A boss at the bottom of each depth.</li>
+        <li>Named mini-bosses guarding some buildings: much tougher, bigger, and they drop better loot.</li>
+        <li>Packs get more dangerous the deeper you go.</li></ul></div>
+      <div class="col go"><span class="label">Where we're going</span><ul>
+        <li>Creatures that could only live in these woods.</li>
+        <li>Clear roles: stalkers, swarms, ambushers, brutes, casters.</li>
+        <li>Bosses with phases, and mini-bosses with more personality.</li></ul></div>
+      <div class="col op"><span class="label">How it should work</span><ul>
+        <li>Each monster teaches you something: how to dodge it, when to hit it, when to run.</li>
+        <li>Mixing monster types should create new problems, not just more health.</li></ul></div>
+    </div>
+    <figure style="max-width:520px"><img src="img/monsters.jpg" alt="Rows of monsters: wolves, goblins, spiders, skeletons, cultists, wraiths, ogres" loading="lazy"><figcaption>The current monsters, top to bottom: wolf, goblin, spider, skeleton, cultist, wraith, ogre.</figcaption></figure>
+    <div class="askbox"><span>Open questions: the next monster, and what mini-bosses should be like.</span><a href="./#monsters">Answer in the council →</a></div>
+  </section>
+
+  <section class="part" id="combat" style="--dc:var(--d-combat)">
+    <h2>Combat</h2>
+    <div class="ws">
+      <div class="col now"><span class="label">How it is now</span><ul>
+        <li>Four classes: Warrior, Warlock, Battle Mage, Hunter. Each has a talent tree and 5 powers on a hotbar.</li>
+        <li>Each race has its own power on G (Human: Second Wind, Elf: Moonveil, Dwarf: Stoneform, Orc: Bloodrage).</li>
+        <li>Weapon speed sets attack speed; two-handers are slow and heavy. Crits and elemental damage.</li>
+        <li>Potions, first or third person, and hits that land exactly when the blade does.</li>
+        <li>No dodge or block yet.</li></ul></div>
+      <div class="col go"><span class="label">Where we're going</span><ul>
+        <li>Decide on evading: dodge, sidestep, block, or none.</li>
+        <li>Set the difficulty the council wants.</li>
+        <li>Make the four classes feel truly different to play.</li></ul></div>
+      <div class="col op"><span class="label">How it should work</span><ul>
+        <li>Deaths should feel like your mistake, never the game's.</li>
+        <li>Positioning matters: getting surrounded is dangerous.</li>
+        <li>Powers are big moments, not button spam.</li></ul></div>
+    </div>
+    <div class="askbox"><span>Open questions: whether you can dodge, and how hard Depthsworn should be.</span><a href="./#combat">Answer in the council →</a></div>
+  </section>
+
+  <section class="part" id="loot" style="--dc:var(--d-loot)">
+    <h2>Loot</h2>
+    <div class="ws">
+      <div class="col now"><span class="label">How it is now</span><ul>
+        <li>Five rarities: Common, Uncommon, Rare, Epic, Legendary.</li>
+        <li>Weapons and armor for each class, with element types (fire, frost, storm, shadow and more).</li>
+        <li>Four armor sets.</li>
+        <li>Chests and searchable objects in buildings; mini-bosses drop three Rare-or-better items.</li></ul></div>
+      <div class="col go"><span class="label">Where we're going</span><ul>
+        <li>Reasons to keep hunting: set bonuses, unique powers, or crafting and trading (the council decides).</li>
+        <li>Gear you can recognise and get attached to.</li></ul></div>
+      <div class="col op"><span class="label">How it should work</span><ul>
+        <li>An upgrade should be easy to spot and exciting to find.</li>
+        <li>Danger and reward go together: the deeper, the better the loot.</li></ul></div>
+    </div>
+    <div class="askbox"><span>Open question: what would keep you hunting for gear.</span><a href="./#loot">Answer in the council →</a></div>
+  </section>
+
+  <section class="part" id="story" style="--dc:var(--d-story)">
+    <h2>Story</h2>
+    <div class="ws">
+      <div class="col now"><span class="label">How it is now</span><ul>
+        <li>Almost none yet: the name Depthsworn, the names of the depths and the bosses.</li>
+        <li>The feeling is there (an old, cursed forest that swallows people) but not the words.</li></ul></div>
+      <div class="col go"><span class="label">Where we're going</span><ul>
+        <li>Decide who you are and why you go deeper.</li>
+        <li>A folk-horror mystery that the world reveals a piece at a time.</li></ul></div>
+      <div class="col op"><span class="label">How it should work</span><ul>
+        <li>Story never gets in the way of playing.</li>
+        <li>Players who look closely find more: notes, graves, details in the buildings.</li></ul></div>
+    </div>
+    <div class="askbox"><span>Open questions: who you are in Depthsworn, and how the story gets told.</span><a href="./#story">Answer in the council →</a></div>
+  </section>
+
+  <section class="part" id="ui" style="--dc:var(--d-ui)">
+    <h2>Menus &amp; UI</h2>
+    <div class="ws">
+      <div class="col now"><span class="label">How it is now</span><ul>
+        <li>Title screen to pick race and class, an inventory, a talent tree, a map, a health bar and a power bar.</li>
+        <li>It all works, but it looks plain and doesn't feel like part of the world yet.</li></ul></div>
+      <div class="col go"><span class="label">Where we're going</span><ul>
+        <li>Menus that look like they belong in the woods (the council picks the style).</li>
+        <li>Clear item tooltips and comparisons.</li></ul></div>
+      <div class="col op"><span class="label">How it should work</span><ul>
+        <li>Fast to read in the middle of a fight.</li>
+        <li>Nothing on screen that you don't need right now.</li></ul></div>
+    </div>
+    <div class="askbox"><span>Open question: what the menus and inventory should look like.</span><a href="./#ui">Answer in the council →</a></div>
+  </section>
+
+  <section class="part" id="how">
+    <h2>How the council works</h2>
+    <div class="pillars">
+      <div class="pillar"><h3>1. A question goes up</h3><p class="muted">Each part of the game has its own tab. Questions offer choices that all fit the direction above.</p></div>
+      <div class="pillar"><h3>2. You answer</h3><p class="muted">Pick a choice and say why, or suggest something better. No account needed, one answer per person, and you can change it.</p></div>
+      <div class="pillar"><h3>3. It closes</h3><p class="muted">When a question closes, the answers and the best comments become a short plan, shown on the question.</p></div>
+      <div class="pillar"><h3>4. It gets built</h3><p class="muted">The plan becomes work on the game, and it shows up in the next playtest build.</p></div>
+    </div>
+    <p><a class="brieflink" href="./">Go to the council and answer →</a></p>
+  </section>
+</div>
+</body>
+</html>
